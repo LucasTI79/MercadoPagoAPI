@@ -5,12 +5,16 @@ const engines = require('consolidate');
 const path = require('path');
 
 //Routes
-const paymentsRoute = require('./src/routes/paymentsRoute');
+const routes = require('./src/routes/routes');
 
 //Load environment
 require('./src/config/getEnv')()
 
 const app = express();
+
+app.get('/', (req, res) => {
+    return res.send("Hello World");
+})
 
 app.use(cors());
 app.use(bodyParser.urlencoded({extended : false}));
@@ -22,7 +26,9 @@ app.set('views', path.join(__dirname, './src/views'));
 app.set("view engine", "ejs");
 
 //Payments route
-app.use('/payments',paymentsRoute);
+app.use('/payments',routes);
+
+app.use(routes);
 
 app.listen(process.env.API_PORT, function(err){
     if(err) console.error(err);
